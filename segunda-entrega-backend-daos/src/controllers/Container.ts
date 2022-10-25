@@ -1,6 +1,6 @@
 import * as fs from 'fs';
-import Product from '../model/Product';
-import ShoppingCart from '../model/shoppingCart';
+import Product from '../models/Product';
+import ShoppingCart from '../models/shoppingCart';
 
 export type FileData = { products: Product[] } & { shoppingCarts: ShoppingCart[] };
 

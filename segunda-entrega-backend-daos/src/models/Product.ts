@@ -7,7 +7,7 @@ export interface IProduct {
   stock: number;
 }
 
-class Product {
+export class Product {
   title: string;
 
   description: string;

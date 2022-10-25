@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import ProductsDB from '../controller/Products';
-import ShoppingCartsDB from '../controller/ShoppingCartManager';
-import { IProduct } from '../model/Product';
+import ProductsDB from '../controllers/Products';
+import ShoppingCartsDB from '../controllers/ShoppingCartManager';
+import { IProduct } from '../models/Product';
 
 const route = Router();
 

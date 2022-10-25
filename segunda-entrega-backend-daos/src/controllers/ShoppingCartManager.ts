@@ -1,5 +1,5 @@
-import Product from '../model/Product';
-import ShoppingCart from '../model/shoppingCart';
+import Product from '../models/Product';
+import ShoppingCart from '../models/shoppingCart';
 import Container, { FileData } from './Container';
 
 const ShoppingCartContainer = new Container('./src/files/shoppingCarts.json');

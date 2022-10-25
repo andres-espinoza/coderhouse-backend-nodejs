@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import ProductsClass from '../controller/Products';
+import ProductsClass from '../controllers/Products';
 import profileChecker from '../middlewares/profileChecker';
-import { IProduct } from '../model/Product';
+import { IProduct } from '../models/Product';
 
 const route = Router();
 

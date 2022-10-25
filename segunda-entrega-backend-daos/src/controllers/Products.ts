@@ -1,4 +1,4 @@
-import Product, { IProduct } from '../model/Product';
+import Product, { IProduct } from '../models/Product';
 import Container, { FileData } from './Container';
 
 const ProductsContainer = new Container('./src/files/products.json');
