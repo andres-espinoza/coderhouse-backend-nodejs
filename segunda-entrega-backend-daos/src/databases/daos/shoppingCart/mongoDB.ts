@@ -30,7 +30,7 @@ class ShoppingCartsMongoDAO extends MongoDBContainer {
   }
 
   public override async updateById(id: string, resource: any): Promise<string> {
-    await this.collection.updateOne({ _id: id }, { $set: { products: resource } });
+    await this.collection.findByIdAndUpdate(id, { $set: { products: resource } });
     return 'Succesfully updated';
   }
 

@@ -1,6 +1,4 @@
 import { Router } from 'express';
-import ProductsDB from '../controllers/Products';
-import ShoppingCartsDB from '../controllers/ShoppingCartManager';
 import { IProduct } from '../models/Product';
 import ShoppingCartsMongoDAO from '../databases/daos/shoppingCart/mongoDB';
 
@@ -35,10 +33,9 @@ route
   .put('/:id/products', async (req, res) => {
     try {
       const { id } = req.params;
-      const { products }: { products: IProduct[] } = req.body;
-      const prods = await ProductsDB.AddProducts(products);
-      const addedProducts = await ShoppingCartsDB.AddProductsInCart(Number(id), prods);
-      res.status(200).send({ products: addedProducts });
+      const products: string[] = req.body;
+      const message = await ShoppingCartsMongoDAO.updateById(id, products);
+      res.status(200).send(message);
     } catch (error) {
       console.error(error);
       res.sendStatus(500);
