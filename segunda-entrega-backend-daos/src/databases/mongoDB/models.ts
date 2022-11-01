@@ -1,5 +1,5 @@
 import  { Schema, model } from 'mongoose';
-import { MongoDBModels } from './types/models';
+import { DBModels } from '../modelsNames';
 import { ProductModel, ShoppingCartModel } from './types/models';
 
 const imageNotFound =
@@ -17,8 +17,8 @@ const productMongoSchema: Schema = new Schema({
 
 const shoppingCartMongoSchema: Schema = new Schema({
   timestamp: { type: Date, required: true, default: Date.now },
-  products: { type: [Schema.Types.ObjectId], ref: MongoDBModels.Product, default: [] },
+  products: { type: [Schema.Types.ObjectId], ref: DBModels.Product, default: [] },
 });
 
-export const productMongoModel = model<ProductModel>(MongoDBModels.Product, productMongoSchema);
-export const shoppingCartMongoModel = model<ShoppingCartModel>(MongoDBModels.ShopingCart, shoppingCartMongoSchema);
+export const productMongoModel = model<ProductModel>(DBModels.Product, productMongoSchema);
+export const shoppingCartMongoModel = model<ShoppingCartModel>(DBModels.ShopingCart, shoppingCartMongoSchema);
