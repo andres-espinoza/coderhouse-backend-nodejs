@@ -32,6 +32,6 @@ export interface IShoppingCart {
 }
 
 export interface ShoppingCartModel extends Omit<IShoppingCart, 'products'>, Document {
-  products: PopulatedDoc<Partial<ProductModel>>[];
+  products: PopulatedDoc<Omit<unknown, keyof ProductModel>>[];
 }
 

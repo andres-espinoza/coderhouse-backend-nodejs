@@ -6,7 +6,6 @@ const imageNotFound =
   'https://chryslergroup.navigation.com/static/WFS/Shop-Site/-/Shop/en_US/Product%20Not%20Found.png';
 
 const productMongoSchema: Schema = new Schema({
-  _id: Schema.Types.ObjectId,
   title: { type: String, required: true },
   description: { type: String, required: true },
   price: { type: Number, required: true },
@@ -17,9 +16,8 @@ const productMongoSchema: Schema = new Schema({
 });
 
 const shoppingCartMongoSchema: Schema = new Schema({
-  _id: Schema.Types.ObjectId,
   timestamp: { type: Date, required: true, default: Date.now },
-  products: { type: [Schema.Types.ObjectId], ref: MongoDBModels.Product },
+  products: { type: [Schema.Types.ObjectId], ref: MongoDBModels.Product, default: [] },
 });
 
 export const productMongoModel = model<ProductModel>(MongoDBModels.Product, productMongoSchema);

@@ -2,20 +2,37 @@ import { Router } from 'express';
 import ProductsDB from '../controllers/Products';
 import ShoppingCartsDB from '../controllers/ShoppingCartManager';
 import { IProduct } from '../models/Product';
+import ShoppingCartsMongoDAO from '../databases/daos/shoppingCart/mongoDB';
 
 const route = Router();
 
 route
-  .post('/', async (_req, res) => {
+  .get('/:id/products', async (req, res) => {
     try {
-      const newCartId = await ShoppingCartsDB.CreateShoppingCart();
-      res.status(200).send({ cartId: newCartId });
+      const { id } = req.params;
+      const productsInCart = await ShoppingCartsMongoDAO.getById(id);
+      res.status(200).send(productsInCart);
     } catch (error) {
       console.error(error);
       res.sendStatus(500);
     }
   })
-  .post('/:id/products', async (req, res) => {
+  .post('/', async (req, res) => {
+    let newShoppingCart;
+    try {
+      const products: IProduct[] = req.body;
+      if (products.length < 1) {
+        newShoppingCart = await ShoppingCartsMongoDAO.create();
+      } else {
+        newShoppingCart = await ShoppingCartsMongoDAO.create({ products });
+      }
+      res.status(200).send(newShoppingCart);
+    } catch (error) {
+      console.error(error);
+      res.sendStatus(500);
+    }
+  })
+  .put('/:id/products', async (req, res) => {
     try {
       const { id } = req.params;
       const { products }: { products: IProduct[] } = req.body;
@@ -27,11 +44,12 @@ route
       res.sendStatus(500);
     }
   })
-  .get('/:id/products', async (req, res) => {
+  .delete('/:id/products/:prodId', async (req, res) => {
     try {
-      const { id } = req.params;
-      const productsInCart = await ShoppingCartsDB.GetProductsinCart(Number(id));
-      res.status(200).send(productsInCart);
+      const { id: cartId } = req.params;
+      const { prodId } = req.params;
+      const message = await ShoppingCartsMongoDAO.deleteProductById(cartId, prodId);
+      res.status(200).send(message);
     } catch (error) {
       console.error(error);
       res.sendStatus(500);
@@ -40,22 +58,8 @@ route
   .delete('/:id', async (req, res) => {
     try {
       const { id } = req.params;
-      const deletedCart = await ShoppingCartsDB.DeleteCartById(Number(id));
-      res.status(200).send(deletedCart);
-    } catch (error) {
-      console.error(error);
-      res.sendStatus(500);
-    }
-  })
-  .delete('/:id/products/:prodId', async (req, res) => {
-    try {
-      const { id: cartId } = req.params;
-      const { prodId } = req.params;
-      const deletedProduct = await ShoppingCartsDB.DeleteProductInCart(
-        Number(cartId),
-        Number(prodId)
-      );
-      res.status(200).send(deletedProduct);
+      const message = await ShoppingCartsMongoDAO.deleteById(id);
+      res.status(200).send(message);
     } catch (error) {
       console.error(error);
       res.sendStatus(500);
