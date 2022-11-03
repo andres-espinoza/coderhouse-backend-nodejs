@@ -8,26 +8,30 @@ abstract class FirebaseDBContainer implements GenericDAO<any> {
     this.collection = collection;
   }
 
-  public async create(resource: any): Promise<any> {
+  public async create(resource: any = null): Promise<any> {
     if (resource instanceof Array) {
       for (const item of resource) {
-        await this.collection.add(item);
+        await this.collection
+          .doc()
+          .set({ ...item, timestamp: admin.firestore.FieldValue.serverTimestamp() });
       }
     } else {
-      await this.collection.add(resource);
+      await this.collection
+        .doc()
+        .set({ ...resource, timestamp: admin.firestore.FieldValue.serverTimestamp() });
     }
     return resource;
   }
 
   public async getAll(): Promise<any[]> {
     const { docs } = await this.collection.get();
-    if (docs.length > 1) return docs.map((document) => ({ ...document.data(), id:document.id }));
+    if (docs.length > 1) return docs.map((document) => ({ ...document.data(),  id: document.id }));
     return [];
   }
 
   public async getById(id: string): Promise<any> {
     const doc = await this.collection.doc(id).get();
-    if (doc) return ({ id: doc.id, ...doc.data() });
+    if (doc) return { id: doc.id, ...doc.data() };
     return null;
   }
 

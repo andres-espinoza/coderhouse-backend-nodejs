@@ -14,12 +14,6 @@ try {
 }
 
 const firebaseDB = admin.firestore();
+export const FirestoreServerValue = admin.database.ServerValue;
 export const productFirebaseModel = firebaseDB.collection(DBModels.Product);
 export const shoppingCartFirebaseModel = firebaseDB.collection(DBModels.ShopingCart);
-
-// crear un documento:
-// const { docs } = await productFirebaseModel.doc().create({...object})
-// const products = docs.map(p => ({ id: p.id, title: p.data().title }))
-
-// leer la colección:
-// await productFirebaseModel.get() -> devuelve un gran objeto
