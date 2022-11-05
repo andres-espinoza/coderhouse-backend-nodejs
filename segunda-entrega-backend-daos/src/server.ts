@@ -21,9 +21,14 @@ app.use('*', (req, res) =>
   })
 );
 
-mongoDBConnection()
-  .then(() => {
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => console.log(`Http Server listening port: http://localhost:${PORT}`));
-  })
-  .catch((e: Error) => console.error(e?.message));
+const PORT = process.env.PORT || 3000;
+
+if ((process.env.DATABASE as string) === 'MONGO') {
+  mongoDBConnection()
+    .then(() => {
+      app.listen(PORT, () => console.log(`Http Server listening port: http://localhost:${PORT}`));
+    })
+    .catch((e: Error) => console.error(e?.message));
+} else {
+  app.listen(PORT, () => console.log(`Http Server listening port: http://localhost:${PORT}`));
+}
