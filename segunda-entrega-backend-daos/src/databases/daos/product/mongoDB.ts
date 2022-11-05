@@ -1,7 +1,7 @@
 import MongoDBContainer from '../../containers/mongoDB';
 import { productMongoModel } from '../../mongoDB/models';
 
-class ProductsMongoDAO extends MongoDBContainer {
+export class ProductsMongoDAO extends MongoDBContainer {
   constructor() {
     super(productMongoModel);
   }

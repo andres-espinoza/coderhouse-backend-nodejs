@@ -1,12 +1,12 @@
-import * as admin from 'firebase-admin';
-import path from 'path';
+import admin from 'firebase-admin';
 import { DBModels } from '../modelsNames';
+import { default as key } from '../../../firebase-key.json';
 
-const serviceAccount = require(path.join(__dirname, '..', '..', '..', 'firebase-key.json'));
+const cert = key as admin.ServiceAccount;
 
 try {
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
+    credential: admin.credential.cert(cert),
   });
   console.log('Connected to Firebase');
 } catch (error) {

@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
 
-    "target": "ES5",
-    "module": "CommonJS",
+    "target": "ES2021",
+    "module": "ESNext",
+    "allowSyntheticDefaultImports": true,
     // "rootDir": "src",                             
     "moduleResolution": "Node",                 
     "outDir": "dist",                         
@@ -12,16 +13,23 @@
     "esModuleInterop": true,                
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
-    "declaration": false, 
+    "declaration": true, 
     "strict": true,                                 
     "strictNullChecks": true,          
     "skipLibCheck": true,                           
-    "lib": ["DOM", "DOM.Iterable", "ES2016", "ESNext"],
-    "jsx": "react"
+    "lib": ["ES2021"],
+    "resolveJsonModule": true
   },
+
   "ts-node": {
-    "esm": true
+
+    "esm": true,
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "ESNext"
+    }
 },
-"include": ["src/**/*"],
+
+"include": ["src/**/*", "./firebase-key.json"],
 "exclude": ["node_modules", "dist/**/*"]
 }

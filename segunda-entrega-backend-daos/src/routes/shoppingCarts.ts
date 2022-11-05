@@ -1,9 +1,8 @@
 import { Router } from 'express';
 // import ShoppingCartsMongoDAO from '../databases/daos/shoppingCart/mongoDB';
-import ShoppingCartsFirebaseDAO from '../databases/daos/shoppingCart/firebaseDB';
+import { ShoppingCartDAO } from '../databases/daos';
 
 const route = Router();
-
 //* MongoDB
 // route
 //   .get('/:id/products', async (req, res) => {
@@ -69,7 +68,7 @@ route
   .get('/:id/products', async (req, res) => {
     try {
       const { id } = req.params;
-      const productsInCart = await ShoppingCartsFirebaseDAO.getById(id);
+      const productsInCart = await ShoppingCartDAO.getById(id);
       res.status(200).send(productsInCart);
     } catch (error) {
       console.error(error);
@@ -82,9 +81,9 @@ route
       //* Espero que lleguen solo los id's de los productos
       const products: string[] = req.body;
       if (products.length < 1) {
-        newShoppingCart = await ShoppingCartsFirebaseDAO.create();
+        newShoppingCart = await ShoppingCartDAO.create();
       } else {
-        newShoppingCart = await ShoppingCartsFirebaseDAO.create({ products });
+        newShoppingCart = await ShoppingCartDAO.create({ products });
       }
       res.status(200).send(newShoppingCart);
     } catch (error) {
@@ -96,7 +95,7 @@ route
     try {
       const { id } = req.params;
       const products: string[] = req.body;
-      const message = await ShoppingCartsFirebaseDAO.updateById(id, products);
+      const message = await ShoppingCartDAO.updateById(id, products);
       res.status(200).send(message);
     } catch (error) {
       console.error(error);
@@ -107,7 +106,7 @@ route
     try {
       const { id: cartId } = req.params;
       const { prodId } = req.params;
-      const message = await ShoppingCartsFirebaseDAO.deleteProductById(cartId, prodId);
+      const message = await ShoppingCartDAO.deleteProductById(cartId, prodId);
       res.status(200).send(message);
     } catch (error) {
       console.error(error);
@@ -117,7 +116,7 @@ route
   .delete('/:id', async (req, res) => {
     try {
       const { id } = req.params;
-      const message = await ShoppingCartsFirebaseDAO.deleteById(id);
+      const message = await ShoppingCartDAO.deleteById(id);
       res.status(200).send(message);
     } catch (error) {
       console.error(error);

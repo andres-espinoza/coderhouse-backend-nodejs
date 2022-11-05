@@ -2,7 +2,7 @@ import MongoDBContainer from '../../containers/mongoDB';
 import { shoppingCartMongoModel } from '../../mongoDB/models';
 import { ShoppingCartModel } from '../../mongoDB/types/models';
 
-class ShoppingCartsMongoDAO extends MongoDBContainer {
+export class ShoppingCartsMongoDAO extends MongoDBContainer {
   constructor() {
     super(shoppingCartMongoModel);
   }

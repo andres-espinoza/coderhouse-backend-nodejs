@@ -3,7 +3,7 @@ import FirebaseDBContainer from '../../containers/firebaseDB';
 import { shoppingCartFirebaseModel } from '../../firebase';
 import ProductsFirebaseDAO from '../product/firebaseDB';
 
-class ShoppingCartsFirebaseDAO extends FirebaseDBContainer {
+export class ShoppingCartsFirebaseDAO extends FirebaseDBContainer {
   constructor() {
     super(shoppingCartFirebaseModel);
   }
