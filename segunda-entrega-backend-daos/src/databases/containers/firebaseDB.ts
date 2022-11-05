@@ -25,13 +25,13 @@ abstract class FirebaseDBContainer implements GenericDAO<any> {
 
   public async getAll(): Promise<any[]> {
     const { docs } = await this.collection.get();
-    if (docs.length > 1) return docs.map((document) => ({ ...document.data(),  id: document.id }));
+    if (docs.length > 1) return docs.map((doc) => ({ ...doc.data(),  id: doc.id, timestamp: doc.data()?.timestamp.toDate() }));
     return [];
   }
 
   public async getById(id: string): Promise<any> {
     const doc = await this.collection.doc(id).get();
-    if (doc) return { id: doc.id, ...doc.data() };
+    if (doc.exists) return { id: doc.id, ...doc.data(), timestamp: doc.data()?.timestamp.toDate() };
     return null;
   }
 
