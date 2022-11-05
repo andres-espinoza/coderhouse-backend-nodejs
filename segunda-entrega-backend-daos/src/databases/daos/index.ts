@@ -13,5 +13,17 @@ const importShoppingCartDAO = async () => {
   }
   return ShoppingCartDAO;
 };
+const importProductDAO = async () => {
+  let ProductsDAO;
+  if (process.env.DATABASE as string === 'FIREBASE') {
+    const { default: F } = await import('./product/firebaseDB');
+    ProductsDAO = F;
+  } else {
+    const { default: M } = await import('./product/mongoDB');
+    ProductsDAO = M;
+  }
+  return ProductsDAO;
+};
 
 export const ShoppingCartDAO =  await importShoppingCartDAO();
+export const ProductDAO = await importProductDAO();

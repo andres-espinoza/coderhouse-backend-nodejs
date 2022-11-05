@@ -2,7 +2,7 @@ import express from 'express';
 import mongoDBConnection from './databases/mongoDB';
 import productsRoute from './routes/products';
 import shoppingCartRoute from './routes/shoppingCarts';
-import * as dotenv from 'dotenv';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
