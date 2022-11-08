@@ -2,38 +2,33 @@ import { io } from 'socket.io-client';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { EChatMessage, EProductMessage } from '../types/websockets';
 
+const clientSocket = io();
 //* ----------------------------- Products ---------------------------------------------
 interface IClientProduct {
   title: string;
   price: string;
   url: string;
 }
-const clientSocket = io();
 
-const productForm = document.querySelector('#product-form') as HTMLFormElement;
+const getProductsButton = document.querySelector('#get-products') as HTMLButtonElement;
 const productList = document.querySelector('#product-table') as HTMLElement;
 
-const productSubmit = (
-  event: SubmitEvent,
-  form: HTMLFormElement,
-  socketMessage: EProductMessage
-): void => {
+const productSubmit = async (event: Event) => {
   event.preventDefault();
-  const inputsRetriever = new FormData(form) as unknown as Iterable<
-  [IClientProduct, FormDataEntryValue]
-  >;
-  const product = Object.fromEntries(inputsRetriever) as IClientProduct;
-  clientSocket.emit(socketMessage, product);
-  form.reset();
-};
+  productList.innerHTML =
+    '<div class="lds-ripple"><div></div><div></div></div>';
 
-productForm.addEventListener('submit', (e) =>
-  productSubmit(e, e.target as HTMLFormElement, EProductMessage.client)
-);
+  const data = await fetch('http://localhost:3000/api/test-products');
+  const products = (await data.json()) as IClientProduct[];
+  for (const product of products) {
+    const blobData = await fetch(product.url);
+    const blob = await blobData.blob();
+    const imageURL = URL.createObjectURL(blob);
+    product.url = imageURL;
+  }
 
-clientSocket.on(EProductMessage.server, ({ products }: { products: IClientProduct[] }) => {
   if (products.length < 1) {
-    productList.innerHTML = '<h2>There is no products yet!</h2>';
+    productList.innerHTML = '<h2>Oops! try again</h2>';
   } else {
     const productsRows = products
       .map(
@@ -68,7 +63,12 @@ clientSocket.on(EProductMessage.server, ({ products }: { products: IClientProduc
     `;
     productList.innerHTML = html;
   }
-});
+};
+
+getProductsButton.onclick = async (e) => {
+  await productSubmit(e);
+  console.log('probando boton!');
+};
 
 //* ----------------------------- Chat Messages ---------------------------------------------
 
@@ -114,7 +114,9 @@ clientSocket.on(EChatMessage.server, ({ messages }: { messages: IChatMessages[] 
     <tr>
       <td class="chat-message-row">
         <span style="color: blue"><b>${email}</b></span>
-        <span style="color: red">[${new Date(dateTime).toLocaleString('es-CL', { timeZone: timezone })}]:</span>
+        <span style="color: red">[${new Date(dateTime).toLocaleString('es-CL', {
+    timeZone: timezone,
+  })}]:</span>
         <span style="color: green"><i>${message}</i></span>
       </td>
     </tr>

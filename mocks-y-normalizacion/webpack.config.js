@@ -4,8 +4,9 @@ const nodeExternals = require('webpack-node-externals');
 
 var clientConfig = Object.assign({}, {
   entry: path.join(__dirname, '/src/public/index.ts'),
-  mode: 'production',
-  watch: false,
+  // mode: 'production',
+  mode: 'development',
+  watch: true,
   output: {
     path: path.join(__dirname, '/src/public'),
     filename: 'index.js',
